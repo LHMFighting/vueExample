@@ -1,0 +1,136 @@
+<!<!DOCTYPE html>
+<html>
+    <head>
+        <title>vue的使用</title>
+        <meta charset="utf-8">
+        <style>
+            *{
+                margin: 0;
+                padding: 0
+            }
+            #app{
+                margin: 10px auto;
+                text-align: center;
+                width: 517px;
+            }
+            #app #searchBar{
+                width: 460px;
+                height: 29px;
+            }
+            #app input{
+                width: 352px;
+                height: 29px;
+            }
+            table{
+                margin-top: 10px;
+                border: 1px solid #BCBCBC;
+                border-spacing: 0;
+                border-collapse: collapse;
+            }   
+            #app th{
+                width: 161px;
+                height: 27px;
+                background-color: #42B983;
+                color: white;
+                border: 1px solid #BCBCBC;
+
+            }
+            td{
+                width: 161px;
+                height: 25px;
+                padding-left: 10px;
+                border: 1px solid #BCBCBC;
+
+            }
+            tr:nth-child(2n+2){
+                background-color: #EEEEEE;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div id="searchBar">
+                Search <input type="text" v-model="searchQuery" v-on:input="filterTable()">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th v-for="col in gridColumns">{{col}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in spareData">
+                        <td v-for="col in gridColumns">{{row[col]}}</td>
+                    </tr>
+                    <!--<tr v-for="row in data">
+                        <td v-for="data1 in row">{{data1}}</td>
+                    </tr>-->
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script src="vue.js"></script>
+    <script>
+        var demo = new Vue({
+            el:'#app',
+            data:{
+                searchQuery:'',
+                gridColumns:['name','age','sex'],
+                gridData:[{
+                    name:'Jack',               
+                    age:30,
+                    sex:'Male'
+                }, {
+                    name: 'Bill',
+                    age: 26,
+                    sex: 'Male'
+                }, {
+                    name: 'Tracy',
+                    age: 22,
+                    sex: 'Female'
+                }, {
+                    name: 'Chris',
+                    age: 36,
+                    sex: 'Male'
+                }],
+                spareData:[{
+                    name:'Jack',               
+                    age:30,
+                    sex:'Male'
+                }, {
+                    name: 'Bill',
+                    age: 26,
+                    sex: 'Male'
+                }, {
+                    name: 'Tracy',
+                    age: 22,
+                    sex: 'Female'
+                }, {
+                    name: 'Chris',
+                    age: 36,
+                    sex: 'Male'
+                }]
+            },
+            methods: {
+                filterTable: function () {
+                    var searchQuery = this.searchQuery;
+                    var gridData = this.gridData;
+                    var searchReg = new RegExp(this.searchQuery,'i')
+                    var arr=[]
+                    if(searchQuery == ''){
+                        this.spareData = gridData;
+                    }else{
+                        for(var i = 0,j = gridData.length;i < j;i++){
+                            if(searchReg.test(gridData[i].name)||
+                               searchReg.test(gridData[i].age)||
+                               searchReg.test(gridData[i].sex)){
+                                arr.push(gridData[i])
+                            }
+                        }
+                        this.spareData = arr
+                    }
+                }
+            }
+        })
+    </script>
+</html>
