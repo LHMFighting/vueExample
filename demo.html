@@ -86,44 +86,31 @@
                     sex: 'Male'
                 }, {
                     name: 'Tracy',
-                    age: 22,
+                    age: 26,
                     sex: 'Female'
                 }, {
                     name: 'Chris',
                     age: 36,
                     sex: 'Male'
                 }],
-                spareData:[{
-                    name:'Jack',               
-                    age:30,
-                    sex:'Male'
-                }, {
-                    name: 'Bill',
-                    age: 26,
-                    sex: 'Male'
-                }, {
-                    name: 'Tracy',
-                    age: 22,
-                    sex: 'Female'
-                }, {
-                    name: 'Chris',
-                    age: 36,
-                    sex: 'Male'
-                }]
+                spareData:[]
             },
             methods: {
+                init: function(){
+                    this.spareData = this.gridData
+                },
                 filterTable: function () {
                     var searchQuery = this.searchQuery;
                     var gridData = this.gridData;
-                    var searchReg = new RegExp(this.searchQuery,'i')
+                    var searchReg = new RegExp(["^"+this.searchQuery],'i')
                     var arr=[]
                     if(searchQuery == ''){
                         this.spareData = gridData;
                     }else{
                         for(var i = 0,j = gridData.length;i < j;i++){
-                            if(searchReg.test(gridData[i].name)||
-                               searchReg.test(gridData[i].age)||
-                               searchReg.test(gridData[i].sex)){
+                            if(gridData[i].name.match(searchReg)||
+                               gridData[i].age.toString().match(searchReg)||
+                               gridData[i].sex.match(searchReg)){
                                 arr.push(gridData[i])
                             }
                         }
@@ -132,5 +119,6 @@
                 }
             }
         })
+        demo.init()
     </script>
 </html>
